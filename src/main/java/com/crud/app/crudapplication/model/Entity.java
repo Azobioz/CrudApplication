@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Entity {
 
     private int id;

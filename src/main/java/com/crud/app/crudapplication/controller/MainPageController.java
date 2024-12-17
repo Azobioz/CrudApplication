@@ -1,17 +1,22 @@
 package com.crud.app.crudapplication.controller;
 
+import com.crud.app.crudapplication.CrudApplication;
 import com.crud.app.crudapplication.dao.EntityDAO;
 import com.crud.app.crudapplication.dao.daoimpl.EntityDAOImpl;
 import com.crud.app.crudapplication.model.Entity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
-public class EntityController {
+public class MainPageController {
     @FXML
     private TableView<Entity> entityTable;
     @FXML
@@ -28,7 +33,7 @@ public class EntityController {
     private EntityDAO entityDAO;
     private ObservableList<Entity> entityList;
 
-    public EntityController() {
+    public MainPageController() {
         entityDAO = new EntityDAOImpl();
         entityList = FXCollections.observableArrayList(entityDAO.getAllEntities());
     }
@@ -42,6 +47,33 @@ public class EntityController {
 
         // Устанавливаем данные в таблицу
         entityTable.setItems(entityList);
+    }
+
+    @FXML
+    public void handleAddButton() {
+        Entity selectedEntity = entityTable.getSelectionModel().getSelectedItem();
+        if (selectedEntity != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/AddPage.fxml"));
+                Parent secondPane = fxmlLoader.load();
+                // Получаем контроллер второй панели
+                AddPageController secondController = fxmlLoader.getController();
+
+                // Передаем объект в контроллер
+                secondController.setSelectedEntity(selectedEntity);
+
+                // Устанавливаем новую панель в сцену
+
+                Scene scene = new Scene(secondPane);
+                Stage stage = new Stage();
+                stage.setTitle("Add Entity");
+                stage.setScene(scene);
+                stage.show();
+            }
+            catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
+        }
     }
 
     @FXML
