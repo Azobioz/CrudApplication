@@ -40,29 +40,21 @@ public class MainPageController {
 
     @FXML
     private void initialize() {
-        // Устанавливаем фабрики для столбцов
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        // Устанавливаем данные в таблицу
         entityTable.setItems(entityList);
     }
 
     @FXML
-    public void handleAddButton() {
+    public void updateButton() {
         Entity selectedEntity = entityTable.getSelectionModel().getSelectedItem();
         if (selectedEntity != null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/AddPage.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/UpdatePage.fxml"));
                 Parent secondPane = fxmlLoader.load();
-                // Получаем контроллер второй панели
-                AddPageController secondController = fxmlLoader.getController();
-
-                // Передаем объект в контроллер
+                UpdatePageController secondController = fxmlLoader.getController();
                 secondController.setSelectedEntity(selectedEntity);
-
-                // Устанавливаем новую панель в сцену
 
                 Scene scene = new Scene(secondPane);
                 Stage stage = new Stage();
@@ -74,6 +66,24 @@ public class MainPageController {
                 System.out.println("Error: " + e);
             }
         }
+    }
+
+    @FXML
+    public void addButton() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/AddPage.fxml"));
+            Parent secondPane = fxmlLoader.load();
+
+            Scene scene = new Scene(secondPane);
+            Stage stage = new Stage();
+            stage.setTitle("Add Entity");
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML

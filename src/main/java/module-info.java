@@ -3,6 +3,7 @@ module com.crud.app.crudapplication {
     requires javafx.fxml;
     requires static lombok;
     requires java.sql;
+    requires mysql.connector.j;
 
 
     exports com.crud.app.crudapplication.controller;

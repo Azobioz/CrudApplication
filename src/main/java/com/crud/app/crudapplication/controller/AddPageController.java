@@ -1,37 +1,75 @@
 package com.crud.app.crudapplication.controller;
 
+import com.crud.app.crudapplication.CrudApplication;
+import com.crud.app.crudapplication.dao.EntityDAO;
+import com.crud.app.crudapplication.dao.daoimpl.EntityDAOImpl;
 import com.crud.app.crudapplication.model.Entity;
+import com.mysql.cj.xdevapi.Table;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import lombok.Data;
+import lombok.Setter;
+
+import java.io.IOException;
+import java.util.List;
 
 @Data
 public class AddPageController {
 
-    private Entity selectedEntity;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private Label errorText;
+
+    private int idColumn;
+    @FXML
+    private TextField nameColumn;
+    @FXML
+    private TextField descriptionColumn;
+
+    private EntityDAO entityDAO;
+    private List<Entity> entityList;
+
+    public AddPageController() {
+        entityDAO = new EntityDAOImpl();
+        entityList = FXCollections.observableArrayList(entityDAO.getAllEntities());
+    }
 
     @FXML
-    private TableColumn<Entity, Integer> idColumn;
-    @FXML
-    private TableColumn<Entity, String> nameColumn;
-    @FXML
-    private TableColumn<Entity, String> descriptionColumn;
+    public void addEntity() {
+        Entity entity = new Entity();
+        if (nameColumn.getText().length() < 3) {
+            errorText.setVisible(true);
+        }
+        else {
+            entity.setName(nameColumn.getText());
+            entity.setDescription(descriptionColumn.getText());
+            entity.setId(entityList.size() + 2);
+            entityDAO.addEntity(entity);
+            entityList.add(entity);
+            nameColumn.setText("");
+            descriptionColumn.setText("");
+            errorText.setVisible(false);
 
-//    @FXML
-//    private void addEntity() {
-//        // Создаем новую сущность
-//        Entity entity = new Entity();
-//        entity.setName(nameColumn.getText()); // Используем getText() для получения значения
-//        entity.setDescription(descriptionField.getText()); // Используем getText() для получения значения
-//        entity.setId(entityList.size() + 2);
-//        // Добавляем сущность в базу данных
-//        entityDAO.addEntity(entity);
-//
-//        // Добавляем сущность в список
-//        entityList.add(entity);
-//
-//        // Очищаем поля ввода
-//        nameField.clear();
-//        descriptionField.clear();
-//    }
+        }
+
+    }
+
+    @FXML
+    public void cancel () {
+        try {
+            Stage stage = (Stage) closeButton.getScene().getWindow();
+            stage.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
+
 }

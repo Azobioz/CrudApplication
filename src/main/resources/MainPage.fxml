@@ -26,8 +26,8 @@
             <TableColumn fx:id="descriptionColumn" prefWidth="116.0" text="Description" />
         </columns>
       </TableView>
-      <Button onMouseClicked="#handleAddButton" layoutX="424.0" layoutY="124.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Add" />
-      <Button layoutX="424.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Update" />
+      <Button onMouseClicked="#addButton" layoutX="424.0" layoutY="124.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Add" />
+      <Button onMouseClicked="#updateButton" layoutX="424.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Update" />
       <Button layoutX="424.0" layoutY="276.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Delete" />
    </children>
 </Pane>
