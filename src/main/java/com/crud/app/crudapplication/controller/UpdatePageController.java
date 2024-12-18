@@ -1,37 +1,42 @@
 package com.crud.app.crudapplication.controller;
 
+import com.crud.app.crudapplication.dao.EntityDAO;
+import com.crud.app.crudapplication.dao.daoimpl.EntityDAOImpl;
 import com.crud.app.crudapplication.model.Entity;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UpdatePageController {
 
+    @FXML
+    public Label successText;
     private Entity selectedEntity;
+    @FXML
+    private TextField entityName;
+    @FXML
+    private TextField entityDescription;
+    private EntityDAO entityDAO;
 
-    @FXML
-    private TableColumn<Entity, Integer> idColumn;
-    @FXML
-    private TableColumn<Entity, String> nameColumn;
-    @FXML
-    private TableColumn<Entity, String> descriptionColumn;
+    public UpdatePageController() {
+        entityDAO = new EntityDAOImpl();
+    }
 
-//    @FXML
-//    private void addEntity() {
-//        // Создаем новую сущность
-//        Entity entity = new Entity();
-//        entity.setName(nameColumn.getText()); // Используем getText() для получения значения
-//        entity.setDescription(descriptionField.getText()); // Используем getText() для получения значения
-//        entity.setId(entityList.size() + 2);
-//        // Добавляем сущность в базу данных
-//        entityDAO.addEntity(entity);
-//
-//        // Добавляем сущность в список
-//        entityList.add(entity);
-//
-//        // Очищаем поля ввода
-//        nameField.clear();
-//        descriptionField.clear();
-//    }
+   @FXML
+    public void updateEntity() {
+
+        if (selectedEntity != null) {
+            selectedEntity.setName(entityName.getText());
+            selectedEntity.setDescription(entityDescription.getText());
+            entityDAO.updateEntity(selectedEntity);
+            successText.setVisible(true);
+        }
+    }
 }

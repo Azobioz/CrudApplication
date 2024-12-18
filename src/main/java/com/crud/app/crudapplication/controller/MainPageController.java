@@ -25,10 +25,6 @@ public class MainPageController {
     private TableColumn<Entity, String> nameColumn;
     @FXML
     private TableColumn<Entity, String> descriptionColumn;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextField descriptionField;
 
     private EntityDAO entityDAO;
     private ObservableList<Entity> entityList;
@@ -39,7 +35,7 @@ public class MainPageController {
     }
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -53,8 +49,10 @@ public class MainPageController {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/UpdatePage.fxml"));
                 Parent secondPane = fxmlLoader.load();
-                UpdatePageController secondController = fxmlLoader.getController();
-                secondController.setSelectedEntity(selectedEntity);
+                UpdatePageController updatePageController = fxmlLoader.getController();
+                updatePageController.setSelectedEntity(selectedEntity);
+                updatePageController.getEntityName().setText(selectedEntity.getName());
+                updatePageController.getEntityDescription().setText(selectedEntity.getDescription());
 
                 Scene scene = new Scene(secondPane);
                 Stage stage = new Stage();
@@ -63,7 +61,7 @@ public class MainPageController {
                 stage.show();
             }
             catch (Exception e) {
-                System.out.println("Error: " + e);
+                e.printStackTrace();
             }
         }
     }
@@ -81,59 +79,16 @@ public class MainPageController {
             stage.show();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e);
         }
 
-    }
-
-    @FXML
-    private void addEntity() {
-        // Создаем новую сущность
-        Entity entity = new Entity();
-        entity.setName(nameField.getText()); // Используем getText() для получения значения
-        entity.setDescription(descriptionField.getText()); // Используем getText() для получения значения
-        entity.setId(entityList.size() + 2);
-        // Добавляем сущность в базу данных
-        entityDAO.addEntity(entity);
-
-        // Добавляем сущность в список
-        entityList.add(entity);
-
-        // Очищаем поля ввода
-        nameField.clear();
-        descriptionField.clear();
-    }
-
-    @FXML
-    private void updateEntity() {
-        // Получаем выбранную сущность
-        Entity selectedEntity = entityTable.getSelectionModel().getSelectedItem();
-        if (selectedEntity != null) {
-            // Обновляем поля сущности
-            selectedEntity.setName(nameField.getText()); // Используем getText() для получения значения
-            selectedEntity.setDescription(descriptionField.getText()); // Используем getText() для получения значения
-
-            // Обновляем сущность в базе данных
-            entityDAO.updateEntity(selectedEntity);
-
-            // Обновляем таблицу
-            entityTable.refresh();
-
-            // Очищаем поля ввода
-            nameField.clear();
-            descriptionField.clear();
-        }
     }
 
     @FXML
     private void deleteEntity() {
-        // Получаем выбранную сущность
         Entity selectedEntity = entityTable.getSelectionModel().getSelectedItem();
         if (selectedEntity != null) {
-            // Удаляем сущность из базы данных
-            entityDAO.deleteEntity(selectedEntity.getId()); // Используем простое поле id
-
-            // Удаляем сущность из списка
+            entityDAO.deleteEntity(selectedEntity.getId());
             entityList.remove(selectedEntity);
         }
     }

@@ -7,8 +7,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #39429E;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.app.crudapplication.controller.AddPageController">
    <children>
-      <TextField fx:id="nameColumn" layoutX="66.0" layoutY="133.0" prefHeight="19.0" prefWidth="337.0" />
-      <TextField fx:id="descriptionColumn" layoutX="66.0" layoutY="216.0" prefHeight="19.0" prefWidth="337.0" />
+      <TextField fx:id="entityName" layoutX="66.0" layoutY="133.0" prefHeight="19.0" prefWidth="337.0" />
+      <TextField fx:id="entityDescription" layoutX="66.0" layoutY="216.0" prefHeight="19.0" prefWidth="337.0" />
       <Button fx:id="closeButton" layoutX="466.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="43.0" prefWidth="95.0" text="Cancel" />
       <Button layoutX="466.0" layoutY="137.0" mnemonicParsing="false" onMouseClicked="#addEntity" prefHeight="43.0" prefWidth="95.0" text="Add" />
       <Label fx:id="errorText" layoutX="142.0" layoutY="97.0" prefHeight="25.0" prefWidth="235.0" text="Name length must be longer then 3" textFill="WHITE" visible="false" />
