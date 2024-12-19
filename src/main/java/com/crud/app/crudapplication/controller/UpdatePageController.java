@@ -31,7 +31,6 @@ public class UpdatePageController {
 
    @FXML
     public void updateEntity() {
-
         if (selectedEntity != null) {
             selectedEntity.setName(entityName.getText());
             selectedEntity.setDescription(entityDescription.getText());
@@ -47,7 +46,7 @@ public class UpdatePageController {
             stage.close();
         }
         catch (Exception e) {
-            System.out.println("Error: " + e);
+            e.printStackTrace();
         }
     }
 

@@ -35,8 +35,9 @@ public class EntityDAOImpl implements EntityDAO {
                 entity.setUpdatedAt(rs.getTimestamp("updatedAt"));
                 listOfEntities.add(entity);
             }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
         return listOfEntities;
     }
@@ -58,8 +59,9 @@ public class EntityDAOImpl implements EntityDAO {
                 entity.setUpdatedAt(rs.getTimestamp("updatedAt"));
                 return entity;
             }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -99,7 +101,7 @@ public class EntityDAOImpl implements EntityDAO {
 
         }
         catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -114,7 +116,7 @@ public class EntityDAOImpl implements EntityDAO {
 
         }
         catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }

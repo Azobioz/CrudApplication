@@ -51,7 +51,6 @@ public class AddPageController {
             entityName.clear();
             entityDescription.clear();
             errorNameText.setVisible(false);
-
         }
 
     }
@@ -63,7 +62,7 @@ public class AddPageController {
             stage.close();
         }
         catch (Exception e) {
-            System.out.println("Error: " + e);
+            e.printStackTrace();
         }
     }
 

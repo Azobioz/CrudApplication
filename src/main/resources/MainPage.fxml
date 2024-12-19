@@ -31,8 +31,7 @@
       <Button layoutX="793.0" layoutY="234.0" mnemonicParsing="false" onMouseClicked="#addButton" prefHeight="52.0" prefWidth="114.0" text="Add" />
       <Button layoutX="793.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#updateButton" prefHeight="52.0" prefWidth="114.0" text="Update" />
       <Button layoutX="793.0" layoutY="386.0" mnemonicParsing="false" onMouseClicked="#deleteButton" prefHeight="52.0" prefWidth="114.0" text="Delete" />
-      <Button layoutX="33.0" layoutY="105.0" mnemonicParsing="false" onMouseClicked="#refresh" text="refresh" />
       <Label layoutX="824.0" layoutY="107.0" prefHeight="17.0" prefWidth="53.0" text="Search" textFill="WHITE" />
-      <TextField fx:id="searchTextField" layoutX="801.0" layoutY="128.0" prefHeight="0.0" prefWidth="80.0" />
+      <TextField fx:id="searchTextField" layoutX="808.0" layoutY="130.0" prefHeight="0.0" prefWidth="80.0" />
    </children>
 </Pane>

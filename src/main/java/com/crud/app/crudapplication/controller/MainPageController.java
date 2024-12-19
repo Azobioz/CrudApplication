@@ -54,6 +54,24 @@ public class MainPageController {
         updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         entityTable.setItems(entityList);
         filteredEntityList = new FilteredList<>(entityList, p -> true);
+
+        entityTable.setItems(filteredEntityList);
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredEntityList.setPredicate(entity -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (entity.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                if (entity.getDescription().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
     }
 
     @FXML
@@ -96,7 +114,7 @@ public class MainPageController {
 
         }
         catch (Exception e) {
-            System.out.println("Error: " + e);
+            e.printStackTrace();
         }
 
 
@@ -124,14 +142,13 @@ public class MainPageController {
             }
         }
         catch (Exception e) {
-            System.out.printf("Error: " + e);
+            e.printStackTrace();
         }
     }
 
     public void refresh() {
         entityList.removeAll(entityList);
         entityList.addAll(entityDAO.getAllEntities());
-
     }
 
 }
