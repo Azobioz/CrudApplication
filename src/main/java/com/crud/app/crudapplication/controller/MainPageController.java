@@ -6,6 +6,7 @@ import com.crud.app.crudapplication.dao.daoimpl.EntityDAOImpl;
 import com.crud.app.crudapplication.model.Entity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainPageController {
     @FXML
@@ -29,14 +32,17 @@ public class MainPageController {
     private TableColumn<Entity, String> createdAtColumn;
     @FXML
     private TableColumn<Entity, String> updatedAtColumn;
-
+    @FXML
+    private TextField searchTextField;
 
     private EntityDAO entityDAO;
     private ObservableList<Entity> entityList;
+    private FilteredList<Entity> filteredEntityList;
 
     public MainPageController() {
         entityDAO = new EntityDAOImpl();
         entityList = FXCollections.observableArrayList(entityDAO.getAllEntities());
+
     }
 
     @FXML
@@ -47,6 +53,7 @@ public class MainPageController {
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         entityTable.setItems(entityList);
+        filteredEntityList = new FilteredList<>(entityList, p -> true);
     }
 
     @FXML
@@ -65,7 +72,8 @@ public class MainPageController {
                 Stage stage = new Stage();
                 stage.setTitle("Add Entity");
                 stage.setScene(scene);
-                stage.show();
+                stage.showAndWait();
+                refresh();
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -83,20 +91,47 @@ public class MainPageController {
             Stage stage = new Stage();
             stage.setTitle("Add Entity");
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            refresh();
+
         }
         catch (Exception e) {
             System.out.println("Error: " + e);
         }
 
+
     }
 
     @FXML
-    private void deleteEntity() {
+    public void deleteButton() {
         Entity selectedEntity = entityTable.getSelectionModel().getSelectedItem();
-        if (selectedEntity != null) {
-            entityDAO.deleteEntity(selectedEntity.getId());
-            entityList.remove(selectedEntity);
+        try {
+            if (selectedEntity != null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/ConfirmToDeletePage.fxml"));
+
+                Parent secondPane = fxmlLoader.load();
+                ConfirmToDeleteController confirmToDeleteController = fxmlLoader.getController();
+                Scene scene = new Scene(secondPane);
+                Stage stage = new Stage();
+                stage.setTitle("Confirm to delete entity");
+                stage.setScene(scene);
+                stage.showAndWait();
+
+                if (confirmToDeleteController.isConfirmed()) {
+                    entityDAO.deleteEntity(selectedEntity.getId());
+                    entityList.remove(selectedEntity);
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.printf("Error: " + e);
         }
     }
+
+    public void refresh() {
+        entityList.removeAll(entityList);
+        entityList.addAll(entityDAO.getAllEntities());
+
+    }
+
 }

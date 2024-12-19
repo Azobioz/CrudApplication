@@ -1,9 +1,9 @@
 package com.crud.app.crudapplication.dao.daoimpl;
 
 import com.crud.app.crudapplication.dao.EntityDAO;
-import com.crud.app.crudapplication.mapper.BytesToUuid;
-import com.crud.app.crudapplication.mapper.UuidToBytes;
 import com.crud.app.crudapplication.model.Entity;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.crud.app.crudapplication.mapper.BytesToUuid.bytesToUuid;
-import static com.crud.app.crudapplication.mapper.UuidToBytes.uuidToBytes;
+
 
 public class EntityDAOImpl implements EntityDAO {
 
@@ -29,7 +28,7 @@ public class EntityDAOImpl implements EntityDAO {
 
             while (rs.next()) {
                 Entity entity = new Entity();
-                entity.setId(UUID.randomUUID());
+                entity.setId(UUID.fromString(rs.getString("id")));
                 entity.setName(rs.getString("name"));
                 entity.setDescription(rs.getString("description"));
                 entity.setCreatedAt(rs.getTimestamp("createdAt"));
@@ -90,20 +89,16 @@ public class EntityDAOImpl implements EntityDAO {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, entity.getName().toString());
-            preparedStatement.setString(2, entity.getDescription().toString());
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.setString(2, entity.getDescription());
             preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            ;
-            preparedStatement.setObject(4, entity.getId());
 
-            int rowsUpdated = preparedStatement.executeUpdate();
+            preparedStatement.setString(4, entity.getId().toString());
 
-            if (rowsUpdated > 0) {
-                System.out.println("Entity updated successfully!");
-            } else {
-                System.out.println("No entity found with the given ID.");
-            }
-        } catch (SQLException e) {
+            preparedStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -111,21 +106,18 @@ public class EntityDAOImpl implements EntityDAO {
     @Override
     public void deleteEntity(UUID id) {
         String query = "DELETE FROM entity WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
+            preparedStatement.setString(1, id.toString());
+            preparedStatement.executeUpdate();
 
-            preparedStatement.setObject(1, id);
-
-            int rowsDeleted = preparedStatement.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                System.out.println("Entity deleted successfully!");
-            } else {
-                System.out.println("No entity found with the given ID.");
-            }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+
     }
+
+
 }

@@ -14,11 +14,12 @@ import java.util.UUID;
 
 @Data
 public class AddPageController {
-
+    @FXML
+    private Label errorDescriptionText;
     @FXML
     private Button closeButton;
     @FXML
-    private Label errorText;
+    private Label errorNameText;
     @FXML
     private TextField entityName;
     @FXML
@@ -36,7 +37,10 @@ public class AddPageController {
     public void addEntity() {
         Entity entity = new Entity();
         if (entityName.getText().length() < 3) {
-            errorText.setVisible(true);
+            errorNameText.setVisible(true);
+        }
+        else if (entityDescription.getText().length() > 255) {
+            errorDescriptionText.setVisible(true);
         }
         else {
             entity.setId(UUID.randomUUID());
@@ -46,7 +50,7 @@ public class AddPageController {
             entityList.add(entity);
             entityName.clear();
             entityDescription.clear();
-            errorText.setVisible(false);
+            errorNameText.setVisible(false);
 
         }
 

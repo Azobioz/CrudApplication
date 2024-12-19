@@ -11,6 +11,7 @@
       <TextField fx:id="entityDescription" layoutX="66.0" layoutY="216.0" prefHeight="19.0" prefWidth="337.0" />
       <Button fx:id="closeButton" layoutX="466.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="43.0" prefWidth="95.0" text="Cancel" />
       <Button layoutX="466.0" layoutY="137.0" mnemonicParsing="false" onMouseClicked="#addEntity" prefHeight="43.0" prefWidth="95.0" text="Add" />
-      <Label fx:id="errorText" layoutX="142.0" layoutY="97.0" prefHeight="25.0" prefWidth="235.0" text="Name length must be longer then 3" textFill="WHITE" visible="false" />
+      <Label fx:id="errorNameText" layoutX="142.0" layoutY="97.0" prefHeight="25.0" prefWidth="235.0" text="Name length must be longer then 3 symbols" textFill="WHITE" visible="false" />
+      <Label fx:id="errorDescriptionText" layoutX="107.0" layoutY="180.0" prefHeight="17.0" prefWidth="306.0" text="Description length must be less then 255 symbols" textFill="WHITE" visible="false" />
    </children>
 </AnchorPane>

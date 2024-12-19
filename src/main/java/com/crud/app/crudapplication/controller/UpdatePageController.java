@@ -5,10 +5,8 @@ import com.crud.app.crudapplication.dao.daoimpl.EntityDAOImpl;
 import com.crud.app.crudapplication.model.Entity;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import lombok.Data;
 
 import java.util.List;
@@ -17,8 +15,10 @@ import java.util.List;
 public class UpdatePageController {
 
     @FXML
-    public Label successText;
+    private Label successText;
     private Entity selectedEntity;
+    @FXML
+    private Button closeButton;
     @FXML
     private TextField entityName;
     @FXML
@@ -39,4 +39,16 @@ public class UpdatePageController {
             successText.setVisible(true);
         }
     }
+
+    @FXML
+    public void cancel () {
+        try {
+            Stage stage = (Stage) closeButton.getScene().getWindow();
+            stage.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
+
 }
