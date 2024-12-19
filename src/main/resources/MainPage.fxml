@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:controller="com.crud.app.crudapplication.controller.MainPageController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #39429E;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="500.0" maxWidth="950.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="956.0" style="-fx-background-color: #39429E;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.app.crudapplication.controller.MainPageController">
    <children>
-      <Pane layoutY="-8.0" prefHeight="94.0" prefWidth="600.0" style="-fx-background-color: #4F58BD;">
+      <Pane layoutY="-8.0" maxHeight="94.0" maxWidth="956.0" prefHeight="94.0" prefWidth="956.0" style="-fx-background-color: #4F58BD;">
          <children>
             <Label layoutX="14.0" layoutY="22.0" prefHeight="52.0" prefWidth="226.0" text="CRUD APP">
                <font>
@@ -19,15 +18,17 @@
             </Label>
          </children>
       </Pane>
-      <TableView fx:id="entityTable" layoutX="33.0" layoutY="113.0" prefHeight="246.0" prefWidth="300.0">
+      <TableView fx:id="entityTable" layoutX="33.0" layoutY="113.0" prefHeight="360.0" prefWidth="735.0">
         <columns>
-          <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="nameColumn" prefWidth="108.0" text="Name" />
-            <TableColumn fx:id="descriptionColumn" prefWidth="116.0" text="Description" />
+          <TableColumn fx:id="idColumn" prefWidth="121.0" text="Id" />
+          <TableColumn fx:id="nameColumn" prefWidth="129.0" text="Name" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="149.0" text="Description" />
+            <TableColumn fx:id="createdAtColumn" prefWidth="168.0" text="Created at" />
+            <TableColumn fx:id="updatedAtColumn" prefWidth="167.0" text="Updated at" />
         </columns>
       </TableView>
-      <Button onMouseClicked="#addButton" layoutX="424.0" layoutY="124.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Add" />
-      <Button onMouseClicked="#updateButton" layoutX="424.0" layoutY="200.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Update" />
-      <Button layoutX="424.0" layoutY="276.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Delete" />
+      <Button layoutX="793.0" layoutY="234.0" mnemonicParsing="false" onMouseClicked="#addButton" prefHeight="52.0" prefWidth="114.0" text="Add" />
+      <Button layoutX="793.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#updateButton" prefHeight="52.0" prefWidth="114.0" text="Update" />
+      <Button layoutX="793.0" layoutY="386.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="114.0" text="Delete" />
    </children>
 </Pane>

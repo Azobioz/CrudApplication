@@ -11,7 +11,7 @@ public class  CrudApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CrudApplication.class.getResource("/MainPage.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 950, 500);
         stage.setTitle("CRUD App");
         stage.setScene(scene);
         stage.show();

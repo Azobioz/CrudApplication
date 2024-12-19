@@ -1,12 +1,18 @@
 package com.crud.app.crudapplication.dao.daoimpl;
 
 import com.crud.app.crudapplication.dao.EntityDAO;
+import com.crud.app.crudapplication.mapper.BytesToUuid;
+import com.crud.app.crudapplication.mapper.UuidToBytes;
 import com.crud.app.crudapplication.model.Entity;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static com.crud.app.crudapplication.mapper.BytesToUuid.bytesToUuid;
+import static com.crud.app.crudapplication.mapper.UuidToBytes.uuidToBytes;
 
 public class EntityDAOImpl implements EntityDAO {
 
@@ -23,7 +29,7 @@ public class EntityDAOImpl implements EntityDAO {
 
             while (rs.next()) {
                 Entity entity = new Entity();
-                entity.setId(rs.getInt("id"));
+                entity.setId(UUID.randomUUID());
                 entity.setName(rs.getString("name"));
                 entity.setDescription(rs.getString("description"));
                 entity.setCreatedAt(rs.getTimestamp("createdAt"));
@@ -37,17 +43,16 @@ public class EntityDAOImpl implements EntityDAO {
     }
 
     @Override
-    public Entity getEntityById(int id) {
+    public Entity getEntityById(UUID id) {
         String query = "SELECT * FROM entity WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+            preparedStatement.setObject(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
                 Entity entity = new Entity();
-                entity.setId(rs.getInt("id"));
                 entity.setName(rs.getString("name"));
                 entity.setDescription(rs.getString("description"));
                 entity.setCreatedAt(rs.getTimestamp("createdAt"));
@@ -62,19 +67,20 @@ public class EntityDAOImpl implements EntityDAO {
 
     @Override
     public void addEntity(Entity entity) {
-        String query = "INSERT INTO entity (name, description, createdAt, updatedAt) VALUES (?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(url, username, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, entity.getName().toString());
-            preparedStatement.setString(2, entity.getDescription().toString());
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+        String query = "INSERT INTO entity (id, name, description, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, entity.getId().toString());
+            preparedStatement.setString(2, entity.getName());
+            preparedStatement.setString(3, entity.getDescription());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -87,7 +93,8 @@ public class EntityDAOImpl implements EntityDAO {
             preparedStatement.setString(1, entity.getName().toString());
             preparedStatement.setString(2, entity.getDescription().toString());
             preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            preparedStatement.setInt(4, entity.getId());
+            ;
+            preparedStatement.setObject(4, entity.getId());
 
             int rowsUpdated = preparedStatement.executeUpdate();
 
@@ -102,12 +109,13 @@ public class EntityDAOImpl implements EntityDAO {
     }
 
     @Override
-    public void deleteEntity(int id) {
+    public void deleteEntity(UUID id) {
         String query = "DELETE FROM entity WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, id);
+
+            preparedStatement.setObject(1, id);
 
             int rowsDeleted = preparedStatement.executeUpdate();
 

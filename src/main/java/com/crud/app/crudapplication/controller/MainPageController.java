@@ -25,6 +25,11 @@ public class MainPageController {
     private TableColumn<Entity, String> nameColumn;
     @FXML
     private TableColumn<Entity, String> descriptionColumn;
+    @FXML
+    private TableColumn<Entity, String> createdAtColumn;
+    @FXML
+    private TableColumn<Entity, String> updatedAtColumn;
+
 
     private EntityDAO entityDAO;
     private ObservableList<Entity> entityList;
@@ -39,6 +44,8 @@ public class MainPageController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         entityTable.setItems(entityList);
     }
 

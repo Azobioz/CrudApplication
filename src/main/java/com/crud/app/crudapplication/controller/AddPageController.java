@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import lombok.Data;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class AddPageController {
@@ -38,9 +39,9 @@ public class AddPageController {
             errorText.setVisible(true);
         }
         else {
+            entity.setId(UUID.randomUUID());
             entity.setName(entityName.getText());
             entity.setDescription(entityDescription.getText());
-            entity.setId(entityList.size() + 2);
             entityDAO.addEntity(entity);
             entityList.add(entity);
             entityName.clear();
