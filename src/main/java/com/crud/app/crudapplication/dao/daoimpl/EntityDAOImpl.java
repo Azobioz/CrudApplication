@@ -48,7 +48,7 @@ public class EntityDAOImpl implements EntityDAO {
         try (Connection connection = DriverManager.getConnection(url, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setObject(1, id);
+            preparedStatement.setString(1, id.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {

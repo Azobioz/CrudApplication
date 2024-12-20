@@ -47,7 +47,7 @@ public class EntityDAOImplTest {
 
     @AfterEach
     public void cleanTestData() throws SQLException {
-        String deleteQuery = "DELETE FROM entity WHERE name = 'Test Entity'";
+        String deleteQuery = "DELETE FROM entity WHERE name = 'Test Entity' OR name = 'New Entity' OR name = 'Updated Entity'";
         try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
             preparedStatement.executeUpdate();
         }
@@ -68,7 +68,7 @@ public class EntityDAOImplTest {
         entity.setDescription("Test Description");
         entityDAO.addEntity(entity);
 
-        Entity retrievedEntity = entityDAO.getEntityById(id);
+        Entity retrievedEntity = entityDAO.getEntityById(entity.getId());
         assertNotNull(retrievedEntity);
         assertEquals("Test Entity", retrievedEntity.getName());
     }
@@ -94,13 +94,16 @@ public class EntityDAOImplTest {
         entity.setId(id);
         entity.setName("Old Entity");
         entity.setDescription("Old Description");
+        entity.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        entity.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         entityDAO.addEntity(entity);
 
         entity.setName("Updated Entity");
         entity.setDescription("Updated Description");
+        entity.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         entityDAO.updateEntity(entity);
 
-        Entity updatedEntity = entityDAO.getEntityById(id);
+        Entity updatedEntity = entityDAO.getEntityById(entity.getId());
         assertNotNull(updatedEntity);
         assertEquals("Updated Entity", updatedEntity.getName());
     }
@@ -114,7 +117,7 @@ public class EntityDAOImplTest {
         entity.setDescription("Delete Description");
         entityDAO.addEntity(entity);
 
-        entityDAO.deleteEntity(id);
+        entityDAO.deleteEntity(entity.getId());
 
         Entity deletedEntity = entityDAO.getEntityById(id);
         assertNull(deletedEntity);
