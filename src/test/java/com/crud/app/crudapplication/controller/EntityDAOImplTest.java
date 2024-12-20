@@ -19,10 +19,32 @@ public class EntityDAOImplTest {
 
     @BeforeAll
     public static void setUp() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/crudapplication_db";
+        String url = "jdbc:mysql://localhost:3306";
         String username = "admin";
         String password = "12345";
         connection = DriverManager.getConnection(url, username, password);
+
+        String createDbSQL = "CREATE DATABASE IF NOT EXISTS crudapplication_db";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(createDbSQL);
+            System.out.println("База данных crudapplication_db создана или уже существует.");
+        }
+
+        String useDbSQL = "USE crudapplication_db";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(useDbSQL);
+        }
+
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS entity (" +
+                "id CHAR(36) PRIMARY KEY, " +
+                "name VARCHAR(50), " +
+                "description VARCHAR(255), " +
+                "createdAt TIMESTAMP, " +
+                "updatedAt TIMESTAMP" +
+                ")";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(createTableSQL);
+        }
         entityDAO = new EntityDAOImpl();
     }
 
